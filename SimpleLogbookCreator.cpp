@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 //#include <windows.h>
-//rel. 2023-10-05 22:52
+//rel. 2023-10-06 15:21
 char filename[20];
 char callsign[100];
 
