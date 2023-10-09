@@ -87,8 +87,8 @@ void printCurrentBand() {
     printf(bandOptions[currentBandIndex]);
 }
 
-//functie voor het printen van het bestand
-//void printLog();
+//functie voor bewerken van het logboek
+void editLog();
 
 //Functie voor het aanmaken van de Cabrillo Header
 void makeHeader();
@@ -115,9 +115,8 @@ void makeMenu(){
         printf("1. Invoeren Cabrillo Header\n");
         printf("2. Invoeren QSO's\n");
         printf("3. Log afsluiten\n");
-        printf("4. Laat logbook zien\n");
-        //printf("5. Print het logboek\n");
-        //printf("6. Instellingen\n");
+        printf("4. Laat logboek zien\n");
+        printf("5. Bewerk het logboek in Notepad\n");
         printf("0. Exit\n");
         printf("Keuze: ");
         scanf("%d", &choice);
@@ -147,19 +146,13 @@ void makeMenu(){
 
                 break;
 
-            /* case 5:
-                //print het logboek
-                printLog();
-
-                break;
+            case 5:
+                //bewerk het logboek met notepad
+                editLog();
                 
-            case 6:
-                //Bepaal de default parameters
-                printf("Hier komt het instellingen menu");
-                //settings();
-
+                
                 break;
-            */
+
             case 0:
                 printf("Programma wordt afgesloten.\n");
 
@@ -511,66 +504,16 @@ void showLog(){
         return;
 }
 
-/* void printLog(){
-    clearScreen();
-    char c;
-    FILE *file;
+void editLog() {
 
-    file = fopen(filename, "r");
-           if (file == NULL) {
-            printf("Kan het bestand niet openen.\n");
-            return;
-        }
+    char commando[200];
+    sprintf(commando, "notepad.exe %s", filename);
 
-    // Haal een handle voor de standaardprinter op
-    HANDLE hPrinter;
-    if (!OpenPrinter(NULL, &hPrinter, NULL)) {
-        perror("Kan de printer niet openen");
-        fclose(file);
-        return;
-    }
-
-    // Stel de afdrukjob in
-    if (StartDocPrinter(hPrinter, 1, NULL) == 0) {
-        perror("Kan de afdruktaak niet starten");
-        ClosePrinter(hPrinter);
-        fclose(file);
-        return;
-    }
-
-    // Stuur elke regel van het bestand naar de printer
-    char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), file) != NULL) {
-        if (!WritePrinter(hPrinter, buffer, strlen(buffer), NULL)) {
-            perror("Kan niet naar de printer schrijven");
-            EndDocPrinter(hPrinter);
-            ClosePrinter(hPrinter);
-            fclose(file);
-            return;
-        }
-    }
-   
-    
-    // Beëindig de afdruktaak
-    EndDocPrinter(hPrinter);
-
-    // Sluit de printer
-    ClosePrinter(hPrinter);
-
-    // Sluit het bestand
-    fclose(file);
+    // Open het bestand met Notepad
+    system(commando);
 
     return;
 }
-*/
-
-/*void settings(){
-
-//    char defaultCategory_power[] = "QRP";
-
-
-}
-*/
 
 // Bij het starten van het programma kan de filename en callsign worden meegegeven
 
