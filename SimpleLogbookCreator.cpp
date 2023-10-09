@@ -409,12 +409,8 @@ int numQSOs = 0;
         if (qsos[numQSOs].frequencie[0] == 'q') {
             break;
         }
-        // Presenteer laatste input, bij enter kan deze waarde worden herhaald
-        if (numQSOs > 0){
-        printf("Mode: %s", qsos[numQSOs - 1].mode);
-        //scanf("%s", );
-        }
-        else printf("Mode: ");
+
+        printf("Mode: ");
         scanf("%s", qsos[numQSOs].mode);
         printf("Date: ");
         scanf("%s", qsos[numQSOs].date);
