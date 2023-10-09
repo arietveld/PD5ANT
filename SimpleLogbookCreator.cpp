@@ -359,7 +359,8 @@ while (1) {
 
 void makeQSO(){
 
-clearScreen();
+char callsign[100];
+
 /*
 Each contact in the log is reported using the QSO tag. Some items on this line will be different for each contest depending on the exchange information.
 
@@ -379,7 +380,7 @@ FILE *file;
     char mode[3];
     char date[11];
     char time[5];
-    char callsent[14];
+    //char callsent[14];
     char rstsent[4];
     char exchsent[7];
     char callrcvd[14];
@@ -416,8 +417,8 @@ int numQSOs = 0;
         scanf("%s", qsos[numQSOs].date);
         printf("Time: ");
         scanf("%s", qsos[numQSOs].time);
-        printf("Call Sent: ");
-        scanf("%s", qsos[numQSOs].callsent);
+        //printf("Call Sent: ");
+        //scanf("%s", qsos[numQSOs].callsent);
         printf("RST Sent: ");
         scanf("%s", qsos[numQSOs].rstsent);
         printf("Exchange Sent: ");
@@ -434,7 +435,7 @@ int numQSOs = 0;
         //voeg de QSO gegevens toe aan het bestand
 
         fprintf(file, "QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
-        qsos[numQSOs].time, qsos[numQSOs].callsent, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
+        qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
         //Toon de volledige QSO op het scherm
@@ -443,7 +444,7 @@ int numQSOs = 0;
         printf("\e[32m\e[25;1H                              --------info sent------- -------info rcvd--------\n");
         printf("QSO:  freq mo date       time call          rst exch   call          rst exch   t\n");
         printf("QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
-        qsos[numQSOs].time, qsos[numQSOs].callsent, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
+        qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
         printf("\e[0m\e[1;1H");
