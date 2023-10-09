@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 //#include <windows.h>
-//rel. 2023-10-09 16:24
+//rel. 2023-10-09 17:00
 char filename[20];
 char callsign[100];
 
@@ -110,7 +110,7 @@ void makeMenu(){
     do {
         clearScreen();
 
-        printf("Simple Logbook Creator rel. 0.1\n\n" );
+        printf("Simple Logbook Creator rel. 0.2\n\n" );
         printf("Menu:\n");
         printf("1. Invoeren Cabrillo Header\n");
         printf("2. Invoeren QSO's\n");
@@ -169,14 +169,6 @@ void makeMenu(){
     } while (choice != 0);
 }
 
-/*Functie voor default waarden
-
-void setDefaultIfEmpty(char *input, const char *defaultValue) {
-    if (strlen(input) <= 1 && input[0] == '\n') {
-        strcpy(input, defaultValue + '\n');
-    } 
-}
-*/
 void makeHeader(){
 
 FILE *file;
@@ -414,14 +406,8 @@ int numQSOs = 0;
             break;
         }
 
-        //printf("Mode: ");
-        //scanf("%s", qsos[numQSOs].mode);
-        //printf("Date: ");
-        //scanf("%s", qsos[numQSOs].date);
         printf("Time: ");
         scanf("%s", qsos[numQSOs].time);
-        //printf("Call Sent: ");
-        //scanf("%s", qsos[numQSOs].callsent);
         printf("RST Sent: ");
         scanf("%s", qsos[numQSOs].rstsent);
         printf("Exchange Sent: ");
@@ -519,12 +505,6 @@ void editLog() {
 
 int main(int argc, char *argv[]){
     
-//   clearScreen();
-
-
-    
-//    printf("QRP Logbook creator rel. 0.1\n\n" );
-
 
     if (argc == 3) {
     strcpy(filename, argv[1]);
