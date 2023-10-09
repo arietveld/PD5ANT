@@ -359,6 +359,15 @@ while (1) {
 
 void makeQSO(){
 
+char nextDate[11];
+char nextMode[3];
+
+//vragen om vaste waarden
+printf("Geef de datum van de volgende QSO's (yyyy-mm-dd): ");
+scanf("%s", nextDate);
+
+printf("Geef de Mode van de volgende QSO's: ");
+scanf("%s", nextMode);
 
 /*
 Each contact in the log is reported using the QSO tag. Some items on this line will be different for each contest depending on the exchange information.
@@ -376,8 +385,8 @@ QSO:  3799 PH 1999-03-06 0712 HC8N           59 700    N5KO           59 CA     
 FILE *file;
     struct QSO {
     char frequencie[6];
-    char mode[3];
-    char date[11];
+    //char mode[3];
+    //char date[11];
     char time[5];
     //char callsent[14];
     char rstsent[4];
@@ -403,6 +412,8 @@ int numQSOs = 0;
             return;
         }
 
+
+
         // Input QSO information
         printf("Frequencie: ");
         scanf("%s", qsos[numQSOs].frequencie);
@@ -410,10 +421,10 @@ int numQSOs = 0;
             break;
         }
 
-        printf("Mode: ");
-        scanf("%s", qsos[numQSOs].mode);
-        printf("Date: ");
-        scanf("%s", qsos[numQSOs].date);
+        //printf("Mode: ");
+        //scanf("%s", qsos[numQSOs].mode);
+        //printf("Date: ");
+        //scanf("%s", qsos[numQSOs].date);
         printf("Time: ");
         scanf("%s", qsos[numQSOs].time);
         //printf("Call Sent: ");
@@ -433,7 +444,7 @@ int numQSOs = 0;
 
         //voeg de QSO gegevens toe aan het bestand
 
-        fprintf(file, "QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
+        fprintf(file, "QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n", qsos[numQSOs].frequencie, nextMode, nextDate, 
         qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
@@ -442,7 +453,7 @@ int numQSOs = 0;
         printf("\e[s");
         printf("\e[32m\e[25;1H                              --------info sent------- -------info rcvd--------\n");
         printf("QSO:  freq mo date       time call          rst exch   call          rst exch   t\n");
-        printf("QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
+        printf("QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n\n", qsos[numQSOs].frequencie, nextMode, nextDate, 
         qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
