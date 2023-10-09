@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 //#include <windows.h>
-//rel. 2023-10-06 15:21
+//rel. 2023-10-09 16:24
 char filename[20];
 char callsign[100];
 
@@ -87,8 +87,8 @@ void printCurrentBand() {
     printf(bandOptions[currentBandIndex]);
 }
 
-//functie voor het printen van het bestand
-//void printLog();
+//functie voor bewerken van het logboek
+void editLog();
 
 //Functie voor het aanmaken van de Cabrillo Header
 void makeHeader();
@@ -115,9 +115,8 @@ void makeMenu(){
         printf("1. Invoeren Cabrillo Header\n");
         printf("2. Invoeren QSO's\n");
         printf("3. Log afsluiten\n");
-        printf("4. Laat logbook zien\n");
-        //printf("5. Print het logboek\n");
-        //printf("6. Instellingen\n");
+        printf("4. Laat logboek zien\n");
+        printf("5. Bewerk het logboek in Notepad\n");
         printf("0. Exit\n");
         printf("Keuze: ");
         scanf("%d", &choice);
@@ -147,19 +146,13 @@ void makeMenu(){
 
                 break;
 
-            /* case 5:
-                //print het logboek
-                printLog();
-
-                break;
+            case 5:
+                //bewerk het logboek met notepad
+                editLog();
                 
-            case 6:
-                //Bepaal de default parameters
-                printf("Hier komt het instellingen menu");
-                //settings();
-
+                
                 break;
-            */
+
             case 0:
                 printf("Programma wordt afgesloten.\n");
 
@@ -359,7 +352,15 @@ while (1) {
 
 void makeQSO(){
 
-char callsign[100];
+char nextDate[11];
+char nextMode[3];
+
+//vragen om vaste waarden
+printf("Geef de datum van de volgende QSO's (yyyy-mm-dd): ");
+scanf("%s", nextDate);
+
+printf("Geef de Mode van de volgende QSO's: ");
+scanf("%s", nextMode);
 
 /*
 Each contact in the log is reported using the QSO tag. Some items on this line will be different for each contest depending on the exchange information.
@@ -377,8 +378,8 @@ QSO:  3799 PH 1999-03-06 0712 HC8N           59 700    N5KO           59 CA     
 FILE *file;
     struct QSO {
     char frequencie[6];
-    char mode[3];
-    char date[11];
+    //char mode[3];
+    //char date[11];
     char time[5];
     //char callsent[14];
     char rstsent[4];
@@ -404,6 +405,8 @@ int numQSOs = 0;
             return;
         }
 
+
+
         // Input QSO information
         printf("Frequencie: ");
         scanf("%s", qsos[numQSOs].frequencie);
@@ -411,10 +414,10 @@ int numQSOs = 0;
             break;
         }
 
-        printf("Mode: ");
-        scanf("%s", qsos[numQSOs].mode);
-        printf("Date: ");
-        scanf("%s", qsos[numQSOs].date);
+        //printf("Mode: ");
+        //scanf("%s", qsos[numQSOs].mode);
+        //printf("Date: ");
+        //scanf("%s", qsos[numQSOs].date);
         printf("Time: ");
         scanf("%s", qsos[numQSOs].time);
         //printf("Call Sent: ");
@@ -434,7 +437,7 @@ int numQSOs = 0;
 
         //voeg de QSO gegevens toe aan het bestand
 
-        fprintf(file, "QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
+        fprintf(file, "QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n", qsos[numQSOs].frequencie, nextMode, nextDate, 
         qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
@@ -443,7 +446,7 @@ int numQSOs = 0;
         printf("\e[s");
         printf("\e[32m\e[25;1H                              --------info sent------- -------info rcvd--------\n");
         printf("QSO:  freq mo date       time call          rst exch   call          rst exch   t\n");
-        printf("QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n\n", qsos[numQSOs].frequencie, qsos[numQSOs].mode, qsos[numQSOs].date, 
+        printf("QSO: %-5s %-2s %-10s %-4s %-13s %-3s %-6s %-13s %-3s %-6s %-1s\n\n", qsos[numQSOs].frequencie, nextMode, nextDate, 
         qsos[numQSOs].time, callsign, qsos[numQSOs].rstsent, qsos[numQSOs].exchsent,
         qsos[numQSOs].callrcvd, qsos[numQSOs].rstrcvd, qsos[numQSOs].exchrcvd, qsos[numQSOs].transmitter);
         
@@ -501,66 +504,16 @@ void showLog(){
         return;
 }
 
-/* void printLog(){
-    clearScreen();
-    char c;
-    FILE *file;
+void editLog() {
 
-    file = fopen(filename, "r");
-           if (file == NULL) {
-            printf("Kan het bestand niet openen.\n");
-            return;
-        }
+    char commando[200];
+    sprintf(commando, "notepad.exe %s", filename);
 
-    // Haal een handle voor de standaardprinter op
-    HANDLE hPrinter;
-    if (!OpenPrinter(NULL, &hPrinter, NULL)) {
-        perror("Kan de printer niet openen");
-        fclose(file);
-        return;
-    }
-
-    // Stel de afdrukjob in
-    if (StartDocPrinter(hPrinter, 1, NULL) == 0) {
-        perror("Kan de afdruktaak niet starten");
-        ClosePrinter(hPrinter);
-        fclose(file);
-        return;
-    }
-
-    // Stuur elke regel van het bestand naar de printer
-    char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), file) != NULL) {
-        if (!WritePrinter(hPrinter, buffer, strlen(buffer), NULL)) {
-            perror("Kan niet naar de printer schrijven");
-            EndDocPrinter(hPrinter);
-            ClosePrinter(hPrinter);
-            fclose(file);
-            return;
-        }
-    }
-   
-    
-    // Beëindig de afdruktaak
-    EndDocPrinter(hPrinter);
-
-    // Sluit de printer
-    ClosePrinter(hPrinter);
-
-    // Sluit het bestand
-    fclose(file);
+    // Open het bestand met Notepad
+    system(commando);
 
     return;
 }
-*/
-
-/*void settings(){
-
-//    char defaultCategory_power[] = "QRP";
-
-
-}
-*/
 
 // Bij het starten van het programma kan de filename en callsign worden meegegeven
 
