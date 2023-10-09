@@ -359,7 +359,6 @@ while (1) {
 
 void makeQSO(){
 
-char callsign[100];
 
 /*
 Each contact in the log is reported using the QSO tag. Some items on this line will be different for each contest depending on the exchange information.
